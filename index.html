@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AtomTask — Decompose Tasks. Accomplish Them.</title>
+  <meta name="description" content="AtomTask is an AI-powered productivity app that breaks your big goals into micro-actions. Free plan available. Premium from $2.99/mo.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%236C8CFF' d='m10.526 11.057.53 1.404h-1.064l.535-1.404zm11.854 7.42c-.224.414-.495.787-.806 1.106-.579.593-1.529.605-2.121.026-.594-.578-.605-1.528-.027-2.121.117-.119.223-.266.314-.437.737-1.362-.271-3.006-1.752-4.494-.124 9.422-3.305 11.443-5.988 11.443-.828 0-1.5-.671-1.5-1.5s.672-1.5 1.5-1.5c1.077 0 1.903-1.11 2.414-3.115-3.398 2.078-6.155 3.117-8.339 3.117-1.86.028-3.572-.846-4.455-2.525-.308-.569-.504-1.171-.581-1.79-.104-.822.479-1.572 1.302-1.675.82-.103 1.571.48 1.675 1.301.091.718.594 1.451 1.318 1.604.556.145 1.617.171 3.459-.523-8.334-5.343-8.509-9.403-7.173-11.871.224-.414.495-.787.806-1.106.579-.594 1.531-.604 2.121-.026.594.578.605 1.528.027 2.121-.117.119-.223.266-.314.437-.737 1.362.271 3.006 1.752 4.494.124-9.423 3.305-11.443 5.988-11.443.828 0 1.5.671 1.5 1.5s-.672 1.5-1.5 1.5c-1.078 0-1.905 1.112-2.415 3.12 4.224-2.582 7.454-3.561 9.836-2.94 1.288.334 2.311 1.145 2.959 2.343.308.569.504 1.171.581 1.79.104.822-.479 1.572-1.302 1.675-.819.104-1.57-.479-1.675-1.301-.091-.718-.594-1.451-1.318-1.604-.557-.144-1.617-.171-3.458.523 8.334 5.343 8.508 9.402 7.172 11.871zm-9.38-4.298-1.772-4.695c-.11-.291-.389-.484-.7-.484s-.589.192-.699.482l-1.788 4.693c-.151.397.142.823.567.823h.003c.252 0 .479-.156.568-.393l.352-.932h1.983l.352.934c.089.236.315.393.568.393.424 0 .717-.424.568-.821zm2.263-4.561c0-.341-.277-.618-.618-.618s-.618.277-.618.618v4.763c0 .341.277.618.618.618s.618-.277.618-.618z'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/835a2ccfff.js" crossorigin="anonymous"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0c0c0f;
+      --surface: #1A1A20;
+      --surface-elevated: #22222A;
+      --card-border: #2A2A35;
+      --primary: #6C8CFF;
+      --primary-light: #8DA4FF;
+      --accent: #4ADE80;
+      --warning: #FBBF24;
+      --error: #EF4444;
+      --text: #E8E8ED;
+      --text-secondary: #9CA3AF;
+      --text-muted: #6B7280;
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+    [dir="rtl"] { font-family: 'IBM Plex Sans Arabic', sans-serif; }
+    [dir="rtl"] .en-only, [dir="ltr"] .ar-only,
+    .lang-en .fr-only, .lang-en .ar-only,
+    .lang-fr .en-only, .lang-fr .ar-only,
+    .lang-ar .en-only, .lang-ar .fr-only { display: none !important; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--primary); text-decoration: none; transition: opacity 0.2s; }
+    a:hover { opacity: 0.8; }
+    ::selection { background: rgba(108,140,255,0.3); color: #fff; }
+
+    /* Glass Nav */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 14px 24px;
+      background: rgba(12,12,15,0.75);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--card-border);
+    }
+    nav .inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      font-weight: 600; font-size: 16px; color: var(--text);
+    }
+    .logo-icon {
+      width: 30px; height: 30px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-icon svg { width: 18px; height: 18px; }
+    .logo-icon svg path { fill: #fff; }
+    nav .links { display: flex; align-items: center; gap: 20px; }
+    nav .links a { font-size: 13px; color: var(--text-secondary); font-weight: 500; }
+
+    /* Lang Switcher */
+    .lang-switcher {
+      display: flex; gap: 4px;
+      background: var(--surface); border-radius: 8px; padding: 3px;
+      border: 1px solid var(--card-border);
+    }
+    .lang-btn {
+      padding: 4px 10px; border-radius: 6px; border: none; cursor: pointer;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.5px;
+      background: transparent; color: var(--text-muted);
+      transition: all 0.2s; text-transform: uppercase;
+    }
+    .lang-btn.active { background: var(--primary); color: #fff; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; border-radius: 100px;
+      font-weight: 600; font-size: 14px; cursor: pointer; border: none;
+      transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: #fff; box-shadow: 0 4px 24px rgba(108,140,255,0.3);
+    }
+    .btn-primary:hover { box-shadow: 0 6px 32px rgba(108,140,255,0.45); transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: var(--text);
+      border: 1px solid var(--card-border);
+    }
+    .btn-outline:hover { background: var(--surface); }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 120px 24px 80px;
+      background: radial-gradient(ellipse at 50% -10%, rgba(108,140,255,0.08) 0%, transparent 55%),
+                  radial-gradient(ellipse at 80% 40%, rgba(74,222,128,0.04) 0%, transparent 40%);
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(108,140,255,0.04) 0%, transparent 70%);
+      top: -200px; right: -200px; pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 100px;
+      background: rgba(108,140,255,0.1); border: 1px solid rgba(108,140,255,0.2);
+      font-size: 12px; color: var(--primary); font-weight: 500; margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-size: clamp(38px, 7vw, 68px); font-weight: 700;
+      line-height: 1.08; max-width: 780px;
+      background: linear-gradient(135deg, #fff 0%, var(--text-secondary) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    [dir="rtl"] .hero h1 { background: linear-gradient(135deg, #fff 0%, #B0B8C5 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero p {
+      font-size: 17px; color: var(--text-secondary); max-width: 540px;
+      margin: 20px auto 36px;
+    }
+    .hero .actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+    /* Glass Section */
+    .glass-section {
+      max-width: 1100px; margin: 0 auto; padding: 80px 24px;
+    }
+    .glass-container {
+      background: var(--surface); border: 1px solid var(--card-border);
+      border-radius: var(--radius); padding: 32px;
+      backdrop-filter: blur(12px);
+    }
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px; border-radius: 100px;
+      background: rgba(108,140,255,0.08); border: 1px solid rgba(108,140,255,0.15);
+      font-size: 11px; color: var(--primary); font-weight: 600; letter-spacing: 1px;
+      text-transform: uppercase; margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(26px, 3.5vw, 38px); font-weight: 700;
+      margin-bottom: 14px; max-width: 600px; line-height: 1.2;
+    }
+    .section-sub {
+      font-size: 15px; color: var(--text-secondary); max-width: 520px; margin-bottom: 40px;
+    }
+
+    /* Feature Cards */
+    .features-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .feature-card {
+      background: rgba(255,255,255,0.02); border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm); padding: 24px;
+      transition: transform 0.3s, background 0.3s, border-color 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .feature-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(108,140,255,0.2), transparent);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .feature-card:hover { transform: translateY(-6px); background: rgba(255,255,255,0.035); border-color: rgba(108,140,255,0.15); }
+    .feature-card:hover::before { opacity: 1; }
+    .feature-icon {
+      width: 44px; height: 44px; border-radius: var(--radius-sm);
+      background: rgba(108,140,255,0.08);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; color: var(--primary); margin-bottom: 16px;
+    }
+    .feature-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+    .feature-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+    /* Pricing */
+    .pricing-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px; max-width: 900px; margin: 0 auto;
+    }
+    .pricing-card {
+      background: var(--surface); border: 1px solid var(--card-border);
+      border-radius: var(--radius); padding: 28px 24px; text-align: center;
+      position: relative; transition: transform 0.3s, border-color 0.3s;
+    }
+    .pricing-card:hover { transform: translateY(-4px); }
+    .pricing-card.featured {
+      border-color: var(--primary);
+      background: linear-gradient(135deg, rgba(108,140,255,0.04), transparent);
+    }
+    .pricing-card.featured::after {
+      content: '★'; position: absolute; top: -10px; right: -8px;
+      width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, var(--warning), #F59E0B);
+      border-radius: 50%; font-size: 14px; color: #fff; box-shadow: 0 4px 12px rgba(251,191,36,0.3);
+    }
+    .pricing-card .plan-name { font-size: 15px; font-weight: 600; color: var(--text); }
+    .pricing-card .plan-sub { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
+    .pricing-card .price {
+      font-size: 44px; font-weight: 700; color: var(--text);
+      line-height: 1; margin-bottom: 4px;
+    }
+    .pricing-card .price span { font-size: 16px; color: var(--text-muted); font-weight: 400; }
+    .pricing-card .price .amount { font-size: inherit; color: inherit; font-weight: inherit; }
+    .pricing-card .period { font-size: 12px; color: var(--text-muted); margin-bottom: 20px; }
+    .pricing-list { list-style: none; margin: 0 0 24px; text-align: left; }
+    .pricing-list li {
+      padding: 7px 0; font-size: 13px; color: var(--text-secondary);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .pricing-list li i { color: var(--accent); font-size: 12px; width: 16px; text-align: center; }
+    .pricing-list li .fa-xmark { color: var(--text-muted); }
+    .pricing-card .btn { width: 100%; justify-content: center; }
+
+    /* Pricing Toggle */
+    .pricing-toggle {
+      display: inline-flex; gap: 4px;
+      background: var(--surface); border-radius: 12px; padding: 4px;
+      border: 1px solid var(--card-border);
+      margin: 0 auto 32px;
+    }
+    .pricing-toggle button {
+      padding: 8px 20px; border-radius: 9px; border: none; cursor: pointer;
+      font-size: 13px; font-weight: 600;
+      background: transparent; color: var(--text-secondary);
+      transition: all 0.2s;
+    }
+    .pricing-toggle button.active {
+      background: var(--primary);
+      color: #fff;
+    }
+    .pricing-toggle .save-badge {
+      display: inline-block;
+      padding: 2px 8px; border-radius: 4px;
+      background: rgba(74,222,128,0.12); color: var(--accent);
+      font-size: 10px; font-weight: 700; margin-left: 6px;
+    }
+    .pricing-toggle .yearly-btn .save-badge { display: none; }
+    .pricing-toggle .yearly-btn.active .save-badge { display: inline-block; }
+    .pricing-card .monthly-only,
+    .pricing-card .yearly-only { display: none; }
+    .show-monthly .pricing-card .monthly-only { display: inline; }
+    .show-yearly .pricing-card .yearly-only { display: inline; }
+    .show-monthly .pricing-card .yearly-only,
+    .show-yearly .pricing-card .monthly-only { display: none; }
+    .show-monthly .pricing-card .monthly-link { display: inline-flex; }
+    .show-monthly .pricing-card .yearly-link { display: none !important; }
+    .show-yearly .pricing-card .monthly-link { display: none !important; }
+    .show-yearly .pricing-card .yearly-link { display: inline-flex; }
+
+    .free-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 2px 8px; border-radius: 4px;
+      border: 1px solid rgba(251,191,36,0.25);
+      font-size: 9px; font-weight: 700; letter-spacing: 1px;
+      color: rgba(251,191,36,0.7);
+      margin-left: 8px; vertical-align: middle;
+    }
+
+    /* Stats Bar */
+    .stats-row {
+      display: flex; flex-wrap: wrap; gap: 32px; justify-content: center;
+      margin: 0 auto; max-width: 700px;
+    }
+    .stat-item { text-align: center; }
+    .stat-num { font-size: 28px; font-weight: 700; color: var(--text); }
+    .stat-label { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+    /* FAQ */
+    .faq-list { max-width: 700px; margin: 0 auto; }
+    .faq-item {
+      background: rgba(255,255,255,0.02); border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm); margin-bottom: 10px; overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .faq-item:hover { border-color: rgba(108,140,255,0.12); }
+    .faq-q {
+      padding: 18px 20px; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      font-weight: 500; font-size: 14px; gap: 16px;
+    }
+    .faq-q i { color: var(--text-muted); font-size: 12px; transition: transform 0.3s; flex-shrink: 0; }
+    .faq-item.open .faq-q i { transform: rotate(180deg); }
+    .faq-a {
+      max-height: 0; overflow: hidden; transition: max-height 0.35s ease;
+      padding: 0 20px; font-size: 13px; color: var(--text-secondary); line-height: 1.7;
+    }
+    .faq-item.open .faq-a { max-height: 400px; padding: 0 20px 18px; }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--card-border); padding: 60px 24px 32px;
+      margin-top: 40px;
+    }
+    footer .inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; flex-wrap: wrap; justify-content: space-between; gap: 40px;
+    }
+    footer .col { min-width: 130px; flex: 1; }
+    footer .col h4 { font-size: 12px; font-weight: 600; margin-bottom: 16px; color: var(--text); text-transform: uppercase; letter-spacing: 1px; }
+    footer .col a {
+      display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 10px;
+      transition: color 0.2s;
+    }
+    footer .col a:hover { color: var(--text-secondary); }
+    footer .bottom {
+      max-width: 1100px; margin: 40px auto 0;
+      padding-top: 24px; border-top: 1px solid var(--card-border);
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+      font-size: 12px; color: var(--text-muted);
+    }
+
+    /* Animations */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .animate { animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+
+    @media (max-width: 640px) {
+      nav .links a:not(.btn) { display: none; }
+      .hero { padding: 100px 20px 60px; }
+      .glass-section { padding: 48px 20px; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .stats-row { gap: 20px; }
+      footer .inner { flex-direction: column; gap: 28px; }
+      .glass-container { padding: 20px; }
+    }
+  </style>
+</head>
+<body class="lang-en">
+
+<nav>
+  <div class="inner">
+    <div class="logo">
+      <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="m10.526 11.057.53 1.404h-1.064l.535-1.404zm11.854 7.42c-.224.414-.495.787-.806 1.106-.579.593-1.529.605-2.121.026-.594-.578-.605-1.528-.027-2.121.117-.119.223-.266.314-.437.737-1.362-.271-3.006-1.752-4.494-.124 9.422-3.305 11.443-5.988 11.443-.828 0-1.5-.671-1.5-1.5s.672-1.5 1.5-1.5c1.077 0 1.903-1.11 2.414-3.115-3.398 2.078-6.155 3.117-8.339 3.117-1.86.028-3.572-.846-4.455-2.525-.308-.569-.504-1.171-.581-1.79-.104-.822.479-1.572 1.302-1.675.82-.103 1.571.48 1.675 1.301.091.718.594 1.451 1.318 1.604.556.145 1.617.171 3.459-.523-8.334-5.343-8.509-9.403-7.173-11.871.224-.414.495-.787.806-1.106.579-.594 1.531-.604 2.121-.026.594.578.605 1.528.027 2.121-.117.119-.223.266-.314.437-.737 1.362.271 3.006 1.752 4.494.124-9.423 3.305-11.443 5.988-11.443.828 0 1.5.671 1.5 1.5s-.672 1.5-1.5 1.5c-1.078 0-1.905 1.112-2.415 3.12 4.224-2.582 7.454-3.561 9.836-2.94 1.288.334 2.311 1.145 2.959 2.343.308.569.504 1.171.581 1.79.104.822-.479 1.572-1.302 1.675-.819.104-1.57-.479-1.675-1.301-.091-.718-.594-1.451-1.318-1.604-.557-.144-1.617-.171-3.458.523 8.334 5.343 8.508 9.402 7.172 11.871zm-9.38-4.298-1.772-4.695c-.11-.291-.389-.484-.7-.484s-.589.192-.699.482l-1.788 4.693c-.151.397.142.823.567.823h.003c.252 0 .479-.156.568-.393l.352-.932h1.983l.352.934c.089.236.315.393.568.393.424 0 .717-.424.568-.821zm2.263-4.561c0-.341-.277-.618-.618-.618s-.618.277-.618.618v4.763c0 .341.277.618.618.618s.618-.277.618-.618z"/></svg></div>
+      <span>AtomTask</span>
+      <span class="free-badge en-only">FREE</span>
+      <span class="free-badge fr-only">GRATUIT</span>
+      <span class="free-badge ar-only">مجاني</span>
+    </div>
+    <div class="links">
+      <a href="#features" class="en-only">Features</a>
+      <a href="#features" class="fr-only">Fonctionnalités</a>
+      <a href="#features" class="ar-only">الميزات</a>
+      <a href="#pricing" class="en-only">Pricing</a>
+      <a href="#pricing" class="fr-only">Tarifs</a>
+      <a href="#pricing" class="ar-only">الأسعار</a>
+      <a href="#faq" class="en-only">FAQ</a>
+      <a href="#faq" class="fr-only">FAQ</a>
+      <a href="#faq" class="ar-only">الأسئلة</a>
+      <div class="lang-switcher">
+        <button class="lang-btn active" onclick="switchLang('en')">EN</button>
+        <button class="lang-btn" onclick="switchLang('fr')">FR</button>
+        <button class="lang-btn" onclick="switchLang('ar')">AR</button>
+      </div>
+      <a href="https://nacer0s.gumroad.com/l/AtomTaskPremiumMonthly" class="btn btn-primary" style="padding:8px 20px;font-size:13px;color:#fff;"><i class="fas fa-crown" style="color:#fff;"></i> <span class="en-only">Subscribe</span><span class="fr-only">S'abonner</span><span class="ar-only">اشتراك</span></a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-badge animate"><i class="fas fa-wand-magic-sparkles"></i> <span class="en-only">AI-Powered Task Decomposition</span><span class="fr-only">Décomposition de tâches par IA</span><span class="ar-only">تقسيم المهام بالذكاء الاصطناعي</span></div>
+  <h1 class="animate delay-1"><span class="en-only">Decompose Tasks.<br>Accomplish Them.</span><span class="fr-only">Décomposez vos tâches.<br>Réalisez-les.</span><span class="ar-only">قسّم مهامك.<br>أنجزها.</span></h1>
+  <p class="animate delay-2"><span class="en-only">AtomTask uses AI to break your big goals into micro-actions, helping you focus, prioritize, and conquer what matters.</span><span class="fr-only">AtomTask utilise l'IA pour décomposer vos grands objectifs en micro-actions, vous aidant à vous concentrer, prioriser et accomplir l'essentiel.</span><span class="ar-only">يستخدم AtomTask الذكاء الاصطناعي لتقسيم أهدافك الكبيرة إلى إجراءات دقيقة، لمساعدتك على التركيز وتحديد الأولويات وإنجاز ما يهم.</span></p>
+  <div class="actions animate delay-3">
+    <a href="https://nacer0s.gumroad.com/l/AtomTaskPremiumMonthly" class="btn btn-primary"><i class="fas fa-crown"></i> <span class="en-only">Get AtomTask</span><span class="fr-only">Obtenir AtomTask</span><span class="ar-only">احصل على AtomTask</span></a>
+    <a href="#features" class="btn btn-outline"><i class="fas fa-chevron-down"></i> <span class="en-only">Learn More</span><span class="fr-only">En savoir plus</span><span class="ar-only">المزيد</span></a>
+  </div>
+  <div style="margin-top:60px;" class="animate delay-4">
+    <div class="stats-row">
+      <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label en-only">Local & Private</div><div class="stat-label fr-only">Local & Privé</div><div class="stat-label ar-only">محلي وخاص</div></div>
+      <div class="stat-item"><div class="stat-num">AI</div><div class="stat-label en-only">Smart Deconstruction</div><div class="stat-label fr-only">Décomposition IA</div><div class="stat-label ar-only">تقسيم ذكي</div></div>
+      <div class="stat-item"><div class="stat-num">5</div><div class="stat-label en-only">Free Deconstructions</div><div class="stat-label fr-only">Décompositions gratuites</div><div class="stat-label ar-only">تقسيمات مجانية</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section id="features" class="glass-section">
+  <div class="glass-container">
+    <div style="text-align:center;">
+      <div class="section-tag"><span class="en-only">Features</span><span class="fr-only">Fonctionnalités</span><span class="ar-only">الميزات</span></div>
+      <h2 class="section-title" style="margin:0 auto 14px;text-align:center;"><span class="en-only">Everything you need to get things done</span><span class="fr-only">Tout ce dont vous avez besoin pour avancer</span><span class="ar-only">كل ما تحتاجه لإنجاز المهام</span></h2>
+      <p class="section-sub" style="margin:0 auto 40px;text-align:center;"><span class="en-only">AtomTask combines AI, focus tools, and smart scheduling into one seamless experience.</span><span class="fr-only">AtomTask combine l'IA, les outils de concentration et la planification intelligente en une seule expérience.</span><span class="ar-only">يجمع AtomTask بين الذكاء الاصطناعي وأدوات التركيز والجدولة الذكية في تجربة واحدة متكاملة.</span></p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
+        <h3 class="en-only">AI Deconstruction</h3><h3 class="fr-only">Décomposition IA</h3><h3 class="ar-only">التقسيم بالذكاء الاصطناعي</h3>
+        <p class="en-only">Enter a macro-task, choose up to 256 micro-actions, and let AI break it down into actionable steps with estimated durations.</p>
+        <p class="fr-only">Entrez une macro-tâche, choisissez jusqu'à 256 micro-actions, et laissez l'IA la décomposer en étapes réalisables avec durées estimées.</p>
+        <p class="ar-only">أدخل مهمة كلية، واختر ما يصل إلى 256 إجراءً دقيقاً، ودع الذكاء الاصطناعي يقسمها إلى خطوات قابلة للتنفيذ مع مدد زمنية تقديرية.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-brain"></i></div>
+        <h3 class="en-only">Priority Matrix</h3><h3 class="fr-only">Matrice de Priorités</h3><h3 class="ar-only">مصفوفة الأولويات</h3>
+        <p class="en-only">Automatically classify tasks into Urgent/Important, Schedule, Delegate, or Eliminate using AI suggestions.</p>
+        <p class="fr-only">Classez automatiquement les tâches en Urgent/Important, Planifier, Déléguer ou Éliminer via l'IA.</p>
+        <p class="ar-only">صنّف المهام تلقائياً إلى عاجل/مهم، جدولة، تفويض، أو حذف باستخدام اقتراحات الذكاء الاصطناعي.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-hourglass-half"></i></div>
+        <h3 class="en-only">Focus Mode</h3><h3 class="fr-only">Mode Concentration</h3><h3 class="ar-only">وضع التركيز</h3>
+        <p class="en-only">Enter a distraction-free zone with strict mode that alerts you if you switch apps. Stay in the flow.</p>
+        <p class="fr-only">Entrez dans une zone sans distraction avec un mode strict qui vous alerte si vous changez d'application.</p>
+        <p class="ar-only">ادخل إلى منطقة خالية من التشتيت مع وضع صارم ينبهك إذا بدّلت التطبيقات. حافظ على التدفق.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-calendar-check"></i></div>
+        <h3 class="en-only">Smart Schedule</h3><h3 class="fr-only">Planification Intelligente</h3><h3 class="ar-only">جدولة ذكية</h3>
+        <p class="en-only">See unscheduled tasks and drag them onto a weekly calendar. Auto-fills time estimates from deconstructed steps.</p>
+        <p class="fr-only">Visualisez les tâches non planifiées et glissez-les sur un calendrier hebdomadaire.</p>
+        <p class="ar-only">شاهد المهام غير المجدولة واسحبها إلى تقويم أسبوعي. يُعبئ التقديرات الزمنية تلقائياً.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+        <h3 class="en-only">Weekly Analytics</h3><h3 class="fr-only">Analytiques Hebdomadaires</h3><h3 class="ar-only">تحليلات أسبوعية</h3>
+        <p class="en-only">Track completion rate, focus hours, streaks, and tasks per day. Get insights on your productivity.</p>
+        <p class="fr-only">Suivez votre taux d'achèvement, vos heures de concentration et vos tendances de productivité.</p>
+        <p class="ar-only">تتبّع معدل الإنجاز وساعات التركيز والسلاسل والمهام اليومية. احصل على رؤى حول إنتاجيتك.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-repeat"></i></div>
+        <h3 class="en-only">Habit Tracking</h3><h3 class="fr-only">Suivi d'Habitudes</h3><h3 class="ar-only">تتبع العادات</h3>
+        <p class="en-only">Build daily, weekly, or monthly habits with check-ins, reactions, and streak tracking.</p>
+        <p class="fr-only">Créez des habitudes quotidiennes, hebdomadaires ou mensuelles avec suivi et réactions.</p>
+        <p class="ar-only">ابنِ عادات يومية أو أسبوعية أو شهرية مع تسجيل الدخول والتفاعلات وتتبع السلاسل.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-robot"></i></div>
+        <h3 class="en-only">AI Chat Assistant</h3><h3 class="fr-only">Assistant IA</h3><h3 class="ar-only">المساعد الذكي</h3>
+        <p class="en-only">Chat with AI about any task. Get tips, motivation, and guidance on your micro-actions in real time.</p>
+        <p class="fr-only">Discutez avec l'IA sur n'importe quelle tâche. Obtenez des conseils et de la motivation.</p>
+        <p class="ar-only">تحدث مع الذكاء الاصطناعي عن أي مهمة. احصل على نصائح وتحفيز وإرشادات فورية.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-shield"></i></div>
+        <h3 class="en-only">Encrypted & Private</h3><h3 class="fr-only">Chiffré & Privé</h3><h3 class="ar-only">مشفر وخاص</h3>
+        <p class="en-only">All task data is stored locally in an encrypted Hive database. Your data stays yours.</p>
+        <p class="fr-only">Toutes vos données sont stockées localement dans une base Hive chiffrée. Vos données vous appartiennent.</p>
+        <p class="ar-only">جميع بيانات المهام مخزنة محلياً في قاعدة بيانات Hive مشفرة. بياناتك تبقى ملكك.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-arrows-rotate"></i></div>
+        <h3 class="en-only">Backup & Restore</h3><h3 class="fr-only">Sauvegarde & Restauration</h3><h3 class="ar-only">النسخ الاحتياطي والاستعادة</h3>
+        <p class="en-only">Export encrypted backups to your own cloud storage and restore them anytime. You're in control.</p>
+        <p class="fr-only">Exportez des sauvegardes chiffrées vers votre stockage cloud et restaurez-les à tout moment.</p>
+        <p class="ar-only">صدّر نسخاً احتياطية مشفرة إلى تخزينك السحابي الخاص واستعدها في أي وقت. أنت المسيطر.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section id="pricing" class="glass-section">
+  <div class="glass-container" style="text-align:center;">
+    <div class="section-tag"><span class="en-only">Pricing</span><span class="fr-only">Tarifs</span><span class="ar-only">الأسعار</span></div>
+    <h2 class="section-title" style="margin:0 auto 14px;text-align:center;"><span class="en-only">Simple, transparent pricing</span><span class="fr-only">Une tarification simple et transparente</span><span class="ar-only">أسعار بسيطة وشفافة</span></h2>
+    <p class="section-sub" style="margin:0 auto 40px;text-align:center;"><span class="en-only">Start free, upgrade when you need unlimited AI deconstructions and advanced features.</span><span class="fr-only">Commencez gratuitement, passez à Premium quand vous avez besoin de décompositions illimitées.</span><span class="ar-only">ابدأ مجاناً، ورقّ عندما تحتاج إلى تقسيمات غير محدودة وميزات متقدمة.</span></p>
+    <div class="pricing-toggle" id="pricingToggle">
+      <button class="active monthly-btn" onclick="togglePricing('monthly')">
+        <span class="en-only">Monthly</span><span class="fr-only">Mensuel</span><span class="ar-only">شهري</span>
+      </button>
+      <button class="yearly-btn" onclick="togglePricing('yearly')">
+        <span class="en-only">Yearly</span><span class="fr-only">Annuel</span><span class="ar-only">سنوي</span>
+        <span class="save-badge en-only">Save 58%</span>
+        <span class="save-badge fr-only">Économisez 58%</span>
+        <span class="save-badge ar-only">وفر 58%</span>
+      </button>
+    </div>
+    <div class="pricing-grid show-monthly" id="pricingGrid">
+      <div class="pricing-card">
+        <div class="plan-name en-only">Free</div><div class="plan-name fr-only">Gratuit</div><div class="plan-name ar-only">مجاني</div>
+        <div class="plan-sub en-only">For getting started</div><div class="plan-sub fr-only">Pour commencer</div><div class="plan-sub ar-only">للبدء</div>
+        <div class="price en-only">Free<span></span></div><div class="price fr-only">Gratuit<span></span></div><div class="price ar-only">مجاني<span></span></div>
+        <div class="period en-only">forever</div><div class="period fr-only">à vie</div><div class="period ar-only">مدى الحياة</div>
+        <ul class="pricing-list">
+          <li><i class="fas fa-check"></i> <span class="en-only">5 AI deconstructions (lifetime)</span><span class="fr-only">5 décompositions IA (à vie)</span><span class="ar-only">5 تقسيمات بالذكاء الاصطناعي (مدى الحياة)</span></li>
+          <li><i class="fas fa-check"></i> <span class="en-only">Priority matrix</span><span class="fr-only">Matrice de priorités</span><span class="ar-only">مصفوفة الأولويات</span></li>
+          <li><i class="fas fa-check"></i> <span class="en-only">Focus mode</span><span class="fr-only">Mode concentration</span><span class="ar-only">وضع التركيز</span></li>
+          <li><i class="fas fa-check"></i> <span class="en-only">Smart schedule</span><span class="fr-only">Planification intelligente</span><span class="ar-only">جدولة ذكية</span></li>
+          <li><i class="fas fa-check"></i> <span class="en-only">Habit tracking</span><span class="fr-only">Suivi d'habitudes</span><span class="ar-only">تتبع العادات</span></li>
+          <li><i class="fas fa-check"></i> <span class="en-only">Encrypted local storage</span><span class="fr-only">Stockage local chiffré</span><span class="ar-only">تخزين محلي مشفر</span></li>
+          <li><i class="fas fa-envelope"></i> <span class="en-only">Support by email</span><span class="fr-only">Support par email</span><span class="ar-only">دعم عبر البريد</span></li>
+        </ul>
+        <a href="https://github.com/nacer0s/AtomTask/releases" class="btn btn-outline monthly-link"><i class="fas fa-download"></i> <span class="en-only">Get Started</span><span class="fr-only">Commencer</span><span class="ar-only">ابدأ الآن</span></a>
+        <a href="https://github.com/nacer0s/AtomTask/releases" class="btn btn-outline yearly-link"><i class="fas fa-download"></i> <span class="en-only">Download Free</span><span class="fr-only">Télécharger Gratuit</span><span class="ar-only">تحميل مجاني</span></a>
+      </div>
+      <div class="pricing-card featured">
+        <div class="plan-name"><i class="fas fa-crown" style="color:var(--warning);font-size:14px;"></i> <span class="en-only">Premium</span><span class="fr-only">Premium</span><span class="ar-only">بريميوم</span></div>
+        <div class="plan-sub en-only">Unlock everything</div><div class="plan-sub fr-only">Débloquez tout</div><div class="plan-sub ar-only">افتح كل الميزات</div>
+        <div class="price"><span class="monthly-only amount">$2.99</span><span class="yearly-only amount">$14.99</span><span><span class="monthly-only">/mo</span><span class="yearly-only">/yr</span></span></div>
+        <div class="period"><span class="monthly-only en-only">or $14.99/year — save 58%</span><span class="monthly-only fr-only">ou 14,99 $/an — économisez 58%</span><span class="monthly-only ar-only">أو 14.99 دولاراً في السنة — وفر 58%</span><span class="yearly-only en-only">billed annually</span><span class="yearly-only fr-only">facturé annuellement</span><span class="yearly-only ar-only">فوترة سنوية</span></div>
+        <ul class="pricing-list">
+          <li><i class="fas fa-check"></i> <span class="en-only">Unlimited AI deconstructions</span><span class="fr-only">Décompositions IA illimitées</span><span class="ar-only">تقسيمات غير محدودة بالذكاء الاصطناعي</span></li>
+          <li><i class="fas fa-check"></i> <span class="en-only">Strict focus mode</span><span class="fr-only">Mode concentration strict</span><span class="ar-only">وضع التركيز الصارم</span></li>
+          <li><i class="fas fa-check"></i> <span class="en-only">AI chat assistant</span><span class="fr-only">Assistant IA</span><span class="ar-only">المساعد الذكي</span></li>
+          <li><i class="fas fa-check"></i> <span class="en-only">Weekly analytics</span><span class="fr-only">Analytiques hebdomadaires</span><span class="ar-only">تحليلات أسبوعية</span></li>
+          <li><i class="fas fa-check"></i> <span class="en-only">Priority matrix</span><span class="fr-only">Matrice de priorités</span><span class="ar-only">مصفوفة الأولويات</span></li>
+          <li><i class="fas fa-check"></i> <span class="en-only">Export (Markdown, CSV, PDF)</span><span class="fr-only">Export (Markdown, CSV, PDF)</span><span class="ar-only">تصدير (Markdown, CSV, PDF)</span></li>
+          <li><i class="fas fa-check"></i> <span class="en-only">Encrypted backup & restore</span><span class="fr-only">Sauvegarde & restauration chiffrées</span><span class="ar-only">نسخ احتياطي واستعادة مشفرين</span></li>
+          <li><i class="fas fa-envelope"></i> <span class="en-only">Support by email</span><span class="fr-only">Support par email</span><span class="ar-only">دعم عبر البريد</span></li>
+        </ul>
+        <a href="https://nacer0s.gumroad.com/l/AtomTaskPremiumMonthly" class="btn btn-primary monthly-link"><i class="fas fa-crown"></i> <span class="en-only">Subscribe Now</span><span class="fr-only">S'abonner</span><span class="ar-only">اشتراك</span></a>
+        <a href="https://nacer0s.gumroad.com/l/AtomTaskPremiumYearly" class="btn btn-primary yearly-link"><i class="fas fa-crown"></i> <span class="en-only">Subscribe Yearly</span><span class="fr-only">S'abonner à l'année</span><span class="ar-only">اشتراك سنوي</span></a>
+      </div>
+      <div class="pricing-card">
+        <div class="plan-name"><i class="fas fa-heart" style="color:var(--error);font-size:14px;"></i> <span class="en-only">Support</span><span class="fr-only">Soutien</span><span class="ar-only">دعم</span></div>
+        <div class="plan-sub en-only">Support the developer</div><div class="plan-sub fr-only">Soutenir le développeur</div><div class="plan-sub ar-only">ادعم المطور</div>
+        <div class="price">$9.99<span></span></div>
+        <div class="period en-only">one-time</div><div class="period fr-only">unique</div><div class="period ar-only">لمرة واحدة</div>
+        <ul class="pricing-list">
+          <li><i class="fas fa-heart" style="color:var(--error);"></i> <span class="en-only">My sincere gratitude</span><span class="fr-only">Ma sincère gratitude</span><span class="ar-only">امتناني الصادق</span></li>
+          <li><i class="fas fa-heart" style="color:var(--error);"></i> <span class="en-only">Name in credits (on request)</span><span class="fr-only">Nom dans les crédits (sur demande)</span><span class="ar-only">الاسم في قائمة الشكر (عند الطلب)</span></li>
+          <li><i class="fas fa-heart" style="color:var(--error);"></i> <span class="en-only">No extra app features</span><span class="fr-only">Aucune fonctionnalité supplémentaire</span><span class="ar-only">لا ميزات إضافية في التطبيق</span></li>
+        </ul>
+        <a href="https://nacer0s.gumroad.com/l/AtomTaskPremiumSupport" class="btn btn-outline" style="border-color:var(--error);color:var(--error);"><i class="fas fa-heart"></i> <span class="en-only">Support Now</span><span class="fr-only">Soutenir</span><span class="ar-only">ادعم الآن</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="glass-section">
+  <div class="glass-container">
+    <div style="text-align:center;">
+      <div class="section-tag">FAQ</div>
+      <h2 class="section-title" style="margin:0 auto 14px;text-align:center;"><span class="en-only">Frequently Asked Questions</span><span class="fr-only">Questions Fréquentes</span><span class="ar-only">الأسئلة الشائعة</span></h2>
+    </div>
+    <div style="margin-top:32px;">
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+            <span class="en-only">How does the free plan work?</span>
+            <span class="fr-only">Comment fonctionne le plan gratuit ?</span>
+            <span class="ar-only">كيف تعمل الخطة المجانية؟</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-a">
+            <div class="en-only">The free plan gives you 5 AI task deconstructions for the lifetime of your account. After reaching the limit, you can still manage existing tasks, use focus mode, the priority matrix, and habit tracking — you just won't be able to create new deconstructions until you upgrade.</div>
+            <div class="fr-only">Le plan gratuit vous offre 5 décompositions IA pour la durée de vie de votre compte. Après avoir atteint la limite, vous pouvez toujours gérer les tâches existantes, utiliser le mode concentration, la matrice de priorités et le suivi d'habitudes.</div>
+            <div class="ar-only">تمنحك الخطة المجانية 5 تقسيمات بالذكاء الاصطناعي طوال عمر حسابك. بعد الوصول إلى الحد، لا يزال بإمكانك إدارة المهام الحالية واستخدام وضع التركيز ومصفوفة الأولويات وتتبع العادات.</div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+            <span class="en-only">How do I purchase Premium?</span>
+            <span class="fr-only">Comment acheter Premium ?</span>
+            <span class="ar-only">كيف أشتري بريميوم؟</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-a">
+            <div class="en-only">Click the "Subscribe" button on this page or open the Subscription screen in the app. You'll be taken to Gumroad to complete the purchase. After purchase, you'll receive a license key — paste it in the app to activate Premium instantly.</div>
+            <div class="fr-only">Cliquez sur "S'abonner" sur cette page ou ouvrez l'écran Abonnement dans l'application. Vous serez redirigé vers Gumroad pour finaliser l'achat.</div>
+            <div class="ar-only">انقر على زر "اشتراك" في هذه الصفحة أو افتح شاشة الاشتراك في التطبيق. سيتم توجيهك إلى Gumroad لإتمام عملية الشراء.</div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+            <span class="en-only">Is my data stored on the cloud?</span>
+            <span class="fr-only">Mes données sont-elles stockées dans le cloud ?</span>
+            <span class="ar-only">هل بياناتي مخزنة في السحابة؟</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-a">
+            <div class="en-only">No. All your tasks, habits, and settings are stored locally in an encrypted Hive database on your device. We use Supabase only for authentication (Google sign-in, email). You can optionally export encrypted backups to your own storage.</div>
+            <div class="fr-only">Non. Toutes vos tâches, habitudes et préférences sont stockées localement dans une base de données Hive chiffrée sur votre appareil. Supabase est utilisé uniquement pour l'authentification.</div>
+            <div class="ar-only">لا. جميع مهامك وعاداتك وإعداداتك مخزنة محلياً في قاعدة بيانات Hive مشفرة على جهازك. نستخدم Supabase فقط للمصادقة.</div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+            <span class="en-only">Can I cancel my subscription?</span>
+            <span class="fr-only">Puis-je annuler mon abonnement ?</span>
+            <span class="ar-only">هل يمكنني إلغاء اشتراكي؟</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-a">
+            <div class="en-only">Yes, you can cancel anytime through Gumroad. Premium features remain active until the end of your billing period. After cancellation, your account reverts to the free plan (your tasks are never deleted).</div>
+            <div class="fr-only">Oui, vous pouvez annuler à tout moment via Gumroad. Les fonctionnalités Premium restent actives jusqu'à la fin de votre période de facturation.</div>
+            <div class="ar-only">نعم، يمكنك الإلغاء في أي وقت عبر Gumroad. تبقى ميزات بريميوم نشطة حتى نهاية فترة الفوترة. بعد الإلغاء، يعود حسابك إلى الخطة المجانية.</div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+            <span class="en-only">What platforms are supported?</span>
+            <span class="fr-only">Quelles plateformes sont supportées ?</span>
+            <span class="ar-only">ما هي المنصات المدعومة؟</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-a">
+            <div class="en-only">AtomTask is currently available on Android via APK download. iOS support is coming soon. The app is built with Flutter and works great on both phones and tablets.</div>
+            <div class="fr-only">AtomTask est actuellement disponible sur Android via APK. Le support iOS arrive bientôt. L'application est construite avec Flutter.</div>
+            <div class="ar-only">AtomTask متاح حالياً على Android عبر تحميل APK. دعم iOS قريباً. التطبيق مبني بـ Flutter ويعمل بشكل رائع على الهواتف والأجهزة اللوحية.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="inner">
+    <div class="col" style="flex:1.5;min-width:220px;">
+      <div class="logo" style="margin-bottom:16px;">
+        <div class="logo-icon"><svg viewBox="0 0 24 24" style="width:18px;height:18px;"><path fill="#fff" d="m10.526 11.057.53 1.404h-1.064l.535-1.404zm11.854 7.42c-.224.414-.495.787-.806 1.106-.579.593-1.529.605-2.121.026-.594-.578-.605-1.528-.027-2.121.117-.119.223-.266.314-.437.737-1.362-.271-3.006-1.752-4.494-.124 9.422-3.305 11.443-5.988 11.443-.828 0-1.5-.671-1.5-1.5s.672-1.5 1.5-1.5c1.077 0 1.903-1.11 2.414-3.115-3.398 2.078-6.155 3.117-8.339 3.117-1.86.028-3.572-.846-4.455-2.525-.308-.569-.504-1.171-.581-1.79-.104-.822.479-1.572 1.302-1.675.82-.103 1.571.48 1.675 1.301.091.718.594 1.451 1.318 1.604.556.145 1.617.171 3.459-.523-8.334-5.343-8.509-9.403-7.173-11.871.224-.414.495-.787.806-1.106.579-.594 1.531-.604 2.121-.026.594.578.605 1.528.027 2.121-.117.119-.223.266-.314.437-.737 1.362.271 3.006 1.752 4.494.124-9.423 3.305-11.443 5.988-11.443.828 0 1.5.671 1.5 1.5s-.672 1.5-1.5 1.5c-1.078 0-1.905 1.112-2.415 3.12 4.224-2.582 7.454-3.561 9.836-2.94 1.288.334 2.311 1.145 2.959 2.343.308.569.504 1.171.581 1.79.104.822-.479 1.572-1.302 1.675-.819.104-1.57-.479-1.675-1.301-.091-.718-.594-1.451-1.318-1.604-.557-.144-1.617-.171-3.458.523 8.334 5.343 8.508 9.402 7.172 11.871zm-9.38-4.298-1.772-4.695c-.11-.291-.389-.484-.7-.484s-.589.192-.699.482l-1.788 4.693c-.151.397.142.823.567.823h.003c.252 0 .479-.156.568-.393l.352-.932h1.983l.352.934c.089.236.315.393.568.393.424 0 .717-.424.568-.821zm2.263-4.561c0-.341-.277-.618-.618-.618s-.618.277-.618.618v4.763c0 .341.277.618.618.618s.618-.277.618-.618z"/></svg></div>
+        AtomTask
+      </div>
+      <p style="font-size:13px;color:var(--text-muted);line-height:1.7;"><span class="en-only">Decompose your big goals into micro-actions. Stay focused. Get things done.</span><span class="fr-only">Décomposez vos grands objectifs en micro-actions. Restez concentré. Accomplissez.</span><span class="ar-only">قسّم أهدافك الكبيرة إلى إجراءات دقيقة. حافظ على تركيزك. أنجز مهامك.</span></p>
+    </div>
+    <div class="col">
+      <h4 class="en-only">Product</h4><h4 class="fr-only">Produit</h4><h4 class="ar-only">المنتج</h4>
+      <a href="#features" class="en-only">Features</a><a href="#features" class="fr-only">Fonctionnalités</a><a href="#features" class="ar-only">الميزات</a>
+      <a href="#pricing" class="en-only">Pricing</a><a href="#pricing" class="fr-only">Tarifs</a><a href="#pricing" class="ar-only">الأسعار</a>
+      <a href="#faq" class="en-only">FAQ</a><a href="#faq" class="fr-only">FAQ</a><a href="#faq" class="ar-only">الأسئلة</a>
+      <a href="https://nacer0s.gumroad.com/l/AtomTaskPremiumMonthly" class="en-only">Subscribe</a><a href="https://nacer0s.gumroad.com/l/AtomTaskPremiumMonthly" class="fr-only">S'abonner</a><a href="https://nacer0s.gumroad.com/l/AtomTaskPremiumMonthly" class="ar-only">اشتراك</a>
+    </div>
+    <div class="col">
+      <h4 class="en-only">Legal</h4><h4 class="fr-only">Légal</h4><h4 class="ar-only">قانوني</h4>
+      <a href="privacy.html" class="en-only">Privacy Policy</a><a href="privacy.html" class="fr-only">Politique de confidentialité</a><a href="privacy.html" class="ar-only">سياسة الخصوصية</a>
+      <a href="terms.html" class="en-only">Terms of Service</a><a href="terms.html" class="fr-only">Conditions d'utilisation</a><a href="terms.html" class="ar-only">شروط الخدمة</a>
+    </div>
+    <div class="col">
+      <h4><span class="en-only">Developer</span><span class="fr-only">Développeur</span><span class="ar-only">المطور</span></h4>
+      <a href="https://github.com/nacer0s/AtomTask"><i class="fab fa-github"></i> GitHub</a>
+      <a href="https://linkedin.com/in/nacer0s"><i class="fab fa-linkedin"></i> LinkedIn</a>
+      <a href="https://www.instagram.com/nacer0s"><i class="fab fa-instagram"></i> Instagram</a>
+      <a href="mailto:nacer.eddine.dev@gmail.com"><i class="fas fa-envelope"></i> <span class="en-only">Email</span><span class="fr-only">Email</span><span class="ar-only">البريد</span></a>
+    </div>
+  </div>
+  <div class="bottom">
+    <span>&copy; 2026 Nacer Eddine Bouras | Nacer Dev. <span class="en-only">All rights reserved.</span><span class="fr-only">Tous droits réservés.</span><span class="ar-only">جميع الحقوق محفوظة.</span></span>
+    <span><span class="en-only">Made with</span><span class="fr-only">Fait avec</span><span class="ar-only">صُنع بـ</span> <i class="fas fa-heart" style="color:var(--error);"></i> <span class="en-only">in Morocco</span><span class="fr-only">au Maroc</span><span class="ar-only">في المغرب</span></span>
+  </div>
+</footer>
+
+<script>
+function switchLang(lang) {
+  document.body.className = 'lang-' + lang;
+  document.documentElement.lang = lang === 'ar' ? 'ar' : lang === 'fr' ? 'fr' : 'en';
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.getAttribute('onclick').includes("'" + lang + "'")));
+}
+
+function togglePricing(period) {
+  const grid = document.getElementById('pricingGrid');
+  const toggle = document.getElementById('pricingToggle');
+  grid.className = 'pricing-grid show-' + period;
+  toggle.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.getAttribute('onclick').includes("'" + period + "'")));
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Service — AtomTask</title>
+  <meta name="description" content="AtomTask Terms of Service.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%236C8CFF' d='m10.526 11.057.53 1.404h-1.064l.535-1.404zm11.854 7.42c-.224.414-.495.787-.806 1.106-.579.593-1.529.605-2.121.026-.594-.578-.605-1.528-.027-2.121.117-.119.223-.266.314-.437.737-1.362-.271-3.006-1.752-4.494-.124 9.422-3.305 11.443-5.988 11.443-.828 0-1.5-.671-1.5-1.5s.672-1.5 1.5-1.5c1.077 0 1.903-1.11 2.414-3.115-3.398 2.078-6.155 3.117-8.339 3.117-1.86.028-3.572-.846-4.455-2.525-.308-.569-.504-1.171-.581-1.79-.104-.822.479-1.572 1.302-1.675.82-.103 1.571.48 1.675 1.301.091.718.594 1.451 1.318 1.604.556.145 1.617.171 3.459-.523-8.334-5.343-8.509-9.403-7.173-11.871.224-.414.495-.787.806-1.106.579-.594 1.531-.604 2.121-.026.594.578.605 1.528.027 2.121-.117.119-.223.266-.314.437-.737 1.362.271 3.006 1.752 4.494.124-9.423 3.305-11.443 5.988-11.443.828 0 1.5.671 1.5 1.5s-.672 1.5-1.5 1.5c-1.078 0-1.905 1.112-2.415 3.12 4.224-2.582 7.454-3.561 9.836-2.94 1.288.334 2.311 1.145 2.959 2.343.308.569.504 1.171.581 1.79.104.822-.479 1.572-1.302 1.675-.819.104-1.57-.479-1.675-1.301-.091-.718-.594-1.451-1.318-1.604-.557-.144-1.617-.171-3.458.523 8.334 5.343 8.508 9.402 7.172 11.871zm-9.38-4.298-1.772-4.695c-.11-.291-.389-.484-.7-.484s-.589.192-.699.482l-1.788 4.693c-.151.397.142.823.567.823h.003c.252 0 .479-.156.568-.393l.352-.932h1.983l.352.934c.089.236.315.393.568.393.424 0 .717-.424.568-.821zm2.263-4.561c0-.341-.277-.618-.618-.618s-.618.277-.618.618v4.763c0 .341.277.618.618.618s.618-.277.618-.618z'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/835a2ccfff.js" crossorigin="anonymous"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0c0c0f;
+      --surface: rgba(255,255,255,0.035);
+      --border: rgba(255,255,255,0.07);
+      --primary: #6C8CFF;
+      --primary-light: #8DA4FF;
+      --accent: #4ADE80;
+      --text: #E8E8ED;
+      --text-secondary: #9CA3AF;
+      --text-muted: #6B7280;
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+    body {
+      font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--primary); text-decoration: none; }
+    a:hover { opacity: 0.8; }
+
+    nav {
+      padding: 16px 24px;
+      background: rgba(12,12,15,0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .inner {
+      max-width: 720px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      font-weight: 600; font-size: 16px; color: var(--text);
+    }
+    .logo-icon {
+      width: 28px; height: 28px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-icon svg { width: 18px; height: 18px; }
+    .logo-icon svg path { fill: #fff; }
+    nav a { font-size: 13px; color: var(--text-muted); }
+
+    .page {
+      max-width: 720px; margin: 0 auto; padding: 48px 24px 80px;
+    }
+    .page h1 {
+      font-size: 32px; font-weight: 700; margin-bottom: 8px;
+    }
+    .page .meta {
+      font-size: 13px; color: var(--text-muted); margin-bottom: 40px;
+    }
+    .page h2 {
+      font-size: 20px; font-weight: 600; margin: 36px 0 12px;
+    }
+    .page p {
+      margin-bottom: 16px; color: var(--text-secondary); font-size: 14px;
+    }
+    .page ul {
+      margin: 0 0 16px 20px; color: var(--text-secondary); font-size: 14px;
+    }
+    .page ul li { margin-bottom: 6px; }
+    .page strong { color: var(--text); }
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 20px; margin: 24px 0;
+    }
+
+    footer {
+      border-top: 1px solid var(--border); padding: 24px;
+      text-align: center; font-size: 12px; color: var(--text-muted);
+    }
+    footer a { color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="m10.526 11.057.53 1.404h-1.064l.535-1.404zm11.854 7.42c-.224.414-.495.787-.806 1.106-.579.593-1.529.605-2.121.026-.594-.578-.605-1.528-.027-2.121.117-.119.223-.266.314-.437.737-1.362-.271-3.006-1.752-4.494-.124 9.422-3.305 11.443-5.988 11.443-.828 0-1.5-.671-1.5-1.5s.672-1.5 1.5-1.5c1.077 0 1.903-1.11 2.414-3.115-3.398 2.078-6.155 3.117-8.339 3.117-1.86.028-3.572-.846-4.455-2.525-.308-.569-.504-1.171-.581-1.79-.104-.822.479-1.572 1.302-1.675.82-.103 1.571.48 1.675 1.301.091.718.594 1.451 1.318 1.604.556.145 1.617.171 3.459-.523-8.334-5.343-8.509-9.403-7.173-11.871.224-.414.495-.787.806-1.106.579-.594 1.531-.604 2.121-.026.594.578.605 1.528.027 2.121-.117.119-.223.266-.314.437-.737 1.362.271 3.006 1.752 4.494.124-9.423 3.305-11.443 5.988-11.443.828 0 1.5.671 1.5 1.5s-.672 1.5-1.5 1.5c-1.078 0-1.905 1.112-2.415 3.12 4.224-2.582 7.454-3.561 9.836-2.94 1.288.334 2.311 1.145 2.959 2.343.308.569.504 1.171.581 1.79.104.822-.479 1.572-1.302 1.675-.819.104-1.57-.479-1.675-1.301-.091-.718-.594-1.451-1.318-1.604-.557-.144-1.617-.171-3.458.523 8.334 5.343 8.508 9.402 7.172 11.871zm-9.38-4.298-1.772-4.695c-.11-.291-.389-.484-.7-.484s-.589.192-.699.482l-1.788 4.693c-.151.397.142.823.567.823h.003c.252 0 .479-.156.568-.393l.352-.932h1.983l.352.934c.089.236.315.393.568.393.424 0 .717-.424.568-.821zm2.263-4.561c0-.341-.277-.618-.618-.618s-.618.277-.618.618v4.763c0 .341.277.618.618.618s.618-.277.618-.618z"/></svg></div>
+      AtomTask
+    </a>
+    <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Home</a>
+  </div>
+</nav>
+
+<div class="page">
+  <h1>Terms of Service</h1>
+  <p class="meta">Last updated: June 2026</p>
+
+  <p>By downloading, installing, or using AtomTask (the "App"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree, do not use the App.</p>
+
+  <h2>1. Acceptance of Terms</h2>
+  <p>By creating an account or using the App in any way, you accept these Terms and agree to comply with them. We may update these Terms at any time; continued use after changes constitutes acceptance.</p>
+
+  <h2>2. Description of Service</h2>
+  <p>AtomTask is a productivity application that uses artificial intelligence to help users decompose tasks into smaller micro-actions, manage priorities, track habits, and maintain focus. The App is available as a downloadable Android APK and may be offered on other platforms in the future.</p>
+
+  <h2>3. Accounts</h2>
+  <p>To use AtomTask, you may create an account via Google OAuth or email/password through Supabase Authentication. You are responsible for maintaining the confidentiality of your credentials. You must be at least 13 years old to use the App.</p>
+
+  <h2>4. Free Plan</h2>
+  <p>The free plan includes 5 lifetime AI task deconstructions. After reaching this limit, you cannot create new deconstructions unless you upgrade to Premium. Existing tasks remain fully accessible and editable.</p>
+
+  <h2>5. Premium Subscriptions</h2>
+  <div class="card">
+    <h4><i class="fas fa-crown" style="color:var(--warning);"></i> Premium Features</h4>
+    <p style="margin-bottom:0;">Premium unlocks unlimited AI deconstructions, strict focus mode, AI chat assistant, weekly analytics, and export features. Subscriptions are billed monthly ($2.99) or yearly ($14.99) through Gumroad.</p>
+  </div>
+  <ul>
+    <li><strong>Payment:</strong> All payments are processed by Gumroad. We do not store or process payment details.</li>
+    <li><strong>Auto-renewal:</strong> Subscriptions auto-renew unless cancelled at least 24 hours before the renewal date.</li>
+    <li><strong>Cancellation:</strong> You can cancel anytime via Gumroad. Premium features remain active until the end of the billing period.</li>
+    <li><strong>Refunds:</strong> Refund requests are handled by Gumroad per their refund policy.</li>
+    <li><strong>License key:</strong> After purchase, you receive a license key to activate Premium in the app.</li>
+  </ul>
+
+  <h2>6. AI Features</h2>
+  <p>AtomTask uses NVIDIA's API to provide AI-powered task deconstruction and priority suggestions. Only task titles are sent to the AI service — never personal information or full task content. AI results are provided "as is" and may not always be accurate. You should review and adjust AI-generated content as needed.</p>
+
+  <h2>7. Acceptable Use</h2>
+  <p>You agree not to:</p>
+  <ul>
+    <li>Use the App for any illegal purpose or in violation of any laws.</li>
+    <li>Attempt to reverse engineer, modify, or exploit the App.</li>
+    <li>Circumvent license verification or subscription mechanisms.</li>
+    <li>Use the App to store or process sensitive personal information (health data, financial information, etc.).</li>
+    <li>Interfere with the App's operation or security features.</li>
+  </ul>
+
+  <h2>8. Intellectual Property</h2>
+  <p>The App, including its code, design, branding, and content, is the intellectual property of Nacer Eddine. You are granted a non-exclusive, non-transferable license to use the App for personal productivity purposes. You may not distribute, sell, or sublicense the App.</p>
+
+  <h2>9. Data & Privacy</h2>
+  <p>Your use of the App is governed by our <a href="privacy.html">Privacy Policy</a>. Key points:</p>
+  <ul>
+    <li>Your task data is stored locally on your device, not on our servers.</li>
+    <li>We use Supabase only for authentication.</li>
+    <li>License keys are verified through Gumroad but not stored.</li>
+    <li>You can delete all data by uninstalling the App.</li>
+  </ul>
+
+  <h2>10. Limitation of Liability</h2>
+  <p>AtomTask is provided "as is" without any warranty, express or implied. We are not liable for any damages arising from your use of the App, including but not limited to data loss, lost productivity, or indirect damages. In no event shall our liability exceed the amount you paid for the App.</p>
+
+  <h2>11. Termination</h2>
+  <p>We reserve the right to suspend or terminate access to the App for violations of these Terms. Upon termination, your license to use the App ends. Local data on your device is not affected by account termination.</p>
+
+  <h2>12. Changes to Terms</h2>
+  <p>We may modify these Terms at any time. Material changes will be notified via the App or by email. Continued use after changes take effect constitutes acceptance of the new Terms.</p>
+
+  <h2>13. Governing Law</h2>
+  <p>These Terms are governed by the laws of Morocco. Any disputes shall be resolved through amicable negotiation first.</p>
+
+  <h2>14. Contact</h2>
+  <p>For questions about these Terms, contact:</p>
+  <ul>
+    <li>Email: <a href="mailto:nacer.eddine.dev@gmail.com">nacer.eddine.dev@gmail.com</a></li>
+    <li>GitHub: <a href="https://github.com/nacer0s/AtomTask">github.com/nacer0s/AtomTask</a></li>
+    <li>LinkedIn: <a href="https://linkedin.com/in/nacer0s">linkedin.com/in/nacer0s</a></li>
+  </ul>
+</div>
+
+<footer>
+  <p>&copy; 2026 Nacer Eddine Bouras | Nacer Dev. — <a href="index.html">AtomTask</a> — <a href="privacy.html">Privacy Policy</a></p>
+</footer>
+
+</body>
+</html>
